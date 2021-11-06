@@ -240,3 +240,13 @@ function checkCorrect(tile){
       selectedTile = null;
       selectedNum=null;
   }
+  //сокращение для функций
+  function id(id){
+      return document.getElementById(id);
+  }
+  function qs(selector){
+      return document.querySelector(selector);
+  }
+  function qsa(selector){
+      return document.querySelectorAll(selector);
+  }
