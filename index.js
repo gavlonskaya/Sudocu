@@ -149,3 +149,58 @@ function generateBoard(board){
           id("board").appendChild(tile);
        }
   }
+function updateMove(){
+    // если выбрана ячейка и номер
+    if (selectedTile && selectedNum){
+        //установить ячейку на правильный номер
+        selectedTile.textContent = selectedNum.textContent;
+        //если число совпадает с соответствующим числом в решении
+        if(checkCorrect(selectedTile)){
+            //отменить выбор ячейки
+            selectedTile.classList.remove("selected");
+            selectedNum.classList.remove("selected");
+            //очистить выбранную переменную
+            selectedNum = null;
+            selectedTile = null;
+            //проверьте, завершение игры
+             if (checkDone()){
+                 endGame();
+             }
+            //если число не соответствует ключу решения
+        }else{
+            //отключить выбор нового номера на 1 сек
+            disableSelect = true;
+            //сделать плитку красной
+            selectedTile.classList.add("incorrect");
+            setTimeout(function (){
+                //вычесть одну попытку
+                lives--;
+                //если не осталось попыток в конце игры
+                if (lives === 0){
+                    endGame();
+                } else{
+                //если попыток не равно 0
+                 //обновить текст
+                 id("lives").textContent = "Количество попыток: " + lives;
+                 disableSelect = false;
+                }
+                //восстановить цвет и удалить выделенное
+                selectedTile.classList.remove("incorrect");
+                selectedTile.classList.remove("selected");
+                selectedNum.classList.remove("selected");
+                //очистить текст ячейки и выбранную переменную
+                selectedTile.textContent = "";
+                selectedTile = null;
+                selectedNum = null;
+            },1000)
+        }
+    }
+}
+
+function checkDone(){
+    let tiles = qsa(".tile");
+    for (let i = 0; i< tiles.length; i++){
+        if (tiles[i].textContent === "") return false;
+    }
+    return true;
+}
