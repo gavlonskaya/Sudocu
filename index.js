@@ -204,3 +204,39 @@ function checkDone(){
     }
     return true;
 }
+function endGame(){
+    disableSelect = true;
+    clearTimeout(timer);
+    // win or loss
+    if (lives === 0 || timeRemaining === 0){
+        id("lives").textContent = "You Lost";
+    } else{
+        id("lives").textContent = "You Won";
+    }
+}
+function checkCorrect(tile){
+    //установить решение в зависимости от сложности
+    let solution;
+    if (id("diff-1").checked) solution = easy[1];
+    else if(id("diff-2").checked) solution = medium[1];
+      else if(id("diff-3").checked) solution = hard[1];
+      else solution = expert[1];
+      // номер плитки одинаковый с номером решения
+      if (solution.charAt(tile.id) === tile.textContent) return true;
+      else return false;
+}
+
+  function clearPrevious(){
+      let tiles = qsa(".tile");
+      //убираем плитки
+      for(let i = 0; i < tiles.length; i++){
+          tiles[i].remove();
+      }
+      //обнуляем таймер
+      if (timer) clearTimeout(timer);
+      for (let i=0;i<id("number-container").children.length;i++){
+          id("number-container").children[i].classList.remove("selected");
+      }
+      selectedTile = null;
+      selectedNum=null;
+  }
