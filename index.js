@@ -96,3 +96,56 @@ function startGame(){
     if (seconds < 10) seconds = "0" + seconds
     return minutes + ":" + seconds;
   }
+function generateBoard(board){
+      //очищаем поле(предыдущие)
+      clearPrevious();
+      //id счетчик
+      let idCount = 0;
+      //создаем наши ячейки/плитки
+      for (let i =0; i < 81; i++){
+          //создаем новые p
+          let tile = document.createElement("p");
+          //если плитки не должны быть пустыми
+          if (board.charAt(i) != "-"){
+            //устанавливаем значение в плитку
+            tile.textContent = board.charAt(i);
+          }else{
+            //добавляем click event listener для плиток
+            tile.addEventListener("click", function(){
+                //если выбор не отключен
+                if(!disableSelect){
+                    //если плитка уже выбранна
+                    if (tile.classList.contains("selected")){
+                        //убираем выбор/выделение
+                        tile.classList.remove("selected");
+                        selectedTile = null;
+                    } else{ 
+                        for(let i = 0; i<81;i++){
+                            qsa(".tile")[i].classList.remove("selected");
+                        }
+                        //добавляем выделение и обновляем переменные
+                        tile.classList.add("selected");
+                        selectedTile = tile;
+                        updateMove();
+                    }
+                }
+            });
+          }
+          //назначаем id для плиток
+          tile.id =idCount;
+          //увеличиваем для следующей плитки
+          idCount++;
+          //добовляем плиткам class
+          tile.classList.add("tile");
+          //добавляет жирную горизонтальную линию между плитками(27|54|81)
+          if ((tile.id > 17 && tile.id < 27)||(tile.id > 44 && tile.id < 54)){
+              tile.classList.add("bottomBorder")
+          }
+          //добавляет вертикальную жирную линию между плитками(27|54|81)
+          if ((tile.id + 1) % 9 == 3 || (tile.id + 1) % 9 == 6){
+              tile.classList.add("rightBorder");
+          }
+          //создание плитток на поле
+          id("board").appendChild(tile);
+       }
+  }
