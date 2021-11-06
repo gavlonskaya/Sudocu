@@ -50,3 +50,49 @@ const easy = [
         })
     }
   }
+function startGame(){
+      //выбираем сложность игры
+      let board;
+      if(id("diff-1").checked) board = easy[0];
+      else if(id("diff-2").checked) board = medium[0];
+      else if(id("diff-3").checked) board = hard[0];
+      else if(id("diff-4").checked) board = expert[0];
+      //устанавливаем кол-во жизней 
+      lives = 3;
+      disableSelect = false;
+      id("lives").textContent = "lives remaining: 3";
+      //создаем поле исходя из сложности игры
+      generateBoard(board);
+      //запускаем таймер
+      startTimer();
+      //устанавливаем тему
+      if (id("theme-1").checked){
+          qs("body").classList.remove("dark");
+      }else{
+          qs("body").classList.add("dark");
+      }
+      //показываем кликабельные
+      id("number-container").classList.remove("hidden");
+  }
+
+  function startTimer(){
+      if (id("time-1").checked) timeRemaining = 300;
+      else if (id("time-2").checked) timeRemaining = 600;
+      else timeRemaining = 900;
+      //устанавливаем таймер на 1 сек
+      id("timer").textContent = timeConversion(timeRemaining);
+      //обновляем таймер
+      timer = setInterval(function(){
+          timeRemaining--;
+          if (timeRemaining === 0) endGame();
+          id("timer").textContent = timeConversion(timeRemaining);
+      },1000)
+  }
+  //изменяем вид из сек в MM:SS
+  function timeConversion(time){
+    let minutes = Math.floor(time/60);
+    if (minutes < 10) minutes = "0" + minutes;
+    let seconds = time % 60;
+    if (seconds < 10) seconds = "0" + seconds
+    return minutes + ":" + seconds;
+  }
