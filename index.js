@@ -60,7 +60,7 @@ function startGame(){
       //устанавливаем кол-во жизней 
       lives = 3;
       disableSelect = false;
-      id("lives").textContent = "lives remaining: 3";
+      id("lives").textContent = "Количество попыток: 3";
       //создаем поле исходя из сложности игры
       generateBoard(board);
       //запускаем таймер
@@ -209,9 +209,9 @@ function endGame(){
     clearTimeout(timer);
     // win or loss
     if (lives === 0 || timeRemaining === 0){
-        id("lives").textContent = "You Lost";
+        id("lives").textContent = "Вы проиграли";
     } else{
-        id("lives").textContent = "You Won";
+        id("lives").textContent = "Вы выиграли!";
     }
 }
 function checkCorrect(tile){
